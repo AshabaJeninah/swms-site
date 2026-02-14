@@ -1,12 +1,8 @@
 <?php
-
-$host = "localhost";
-$user = "root"; 
-$password = ""; 
-$database = "swms_simple"; 
+include 'connect.php';
 $table = "incident_reports"; 
 
-$conn = @new mysqli($host, $user, $password, $database);
+// $conn = @new mysqli($host, $user, $password, $database);
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

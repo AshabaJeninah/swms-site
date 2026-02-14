@@ -1,13 +1,7 @@
 <?php
 
 session_start();
-
-$host = "localhost";
-$user = "root"; 
-$password = ""; 
-$database = "swms_simple"; 
-$port = 3306; 
-
+include 'connect.php';
 $register_message = '';
 
 $AUTHORIZED_IDS = ["KCCA01", "KCCA02", "KCCA03", "KCCA04", "KCCA05"]; 

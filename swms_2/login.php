@@ -1,13 +1,7 @@
 <?php
 
 session_start();
-
-$host = "localhost";
-$user = "root"; 
-$password = ""; 
-$database = "swms_simple"; 
-$port = 3306; 
-
+include 'connect.php';
 $login_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
