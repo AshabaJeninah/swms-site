@@ -1,6 +1,3 @@
-<!-- <?php
-
-?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -134,11 +131,15 @@
 
     <header>
         <h1><img src="images/hero_background.jpg" alt="SWMS Logo" class="logo-icon"> Smart Waste Management System</h1>
-        <nav>
-            <a href="index.php" style="background-color: #2980b9;">System Overview</a>
+
+         <div class="menu-toggle" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+    </div>
+        <nav id="nav-list">
+            <a href="index.php">System Overview</a>
             <a href="report.php">Report Here</a>
             <a href="contact.php">Contact Us</a>
-            <a href="login.php" style="background-color: #3498db; margin-left: 15px; font-weight: bold;">
+            <a href="login.php" style="background-color: #1a5c88; margin-left: 15px; font-weight: bold;">
                 ADMIN LOGIN
             </a>
         </nav>
@@ -154,7 +155,7 @@
 
     <div class="app-shell">
         
-        <h2 style="text-align: center; color: #16a085; margin-bottom: 40px; font-size: 2.2em;">How We Work - Our Integrated Solutions</h2>
+        <h2 style="text-align: center; color: #16a085; margin-bottom: 40px; font-size: 2.2em;"> Our Objectives</h2>
         <div class="sanitation-array">
             
             <div class="status-node">
@@ -185,8 +186,10 @@
         <p>+256754343434 / +256751111111</p>
         <p>swmsuganda@gmail.com</p>
         <div class="footer-divider"></div>
-        <p>&copy;2025 Smart Waste Management System | All rights Reserved</p>
+        <p>&copy;2026 Smart Waste Management System | All rights Reserved</p>
     </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-
 include 'connect.php';
 $message = '';
 
@@ -45,13 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
+   <header>
         <h1><img src="images/hero_background.jpg" alt="SWMS Logo" class="logo-icon"> Smart Waste Management System</h1>
-        <nav>
+
+         <div class="menu-toggle" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+    </div>
+        <nav id="nav-list">
             <a href="index.php">System Overview</a>
             <a href="report.php">Report Here</a>
-            <a href="contact.php" style="background-color: #2980b9;">Contact Us</a>
-            <a href="login.php" style="background-color: #2980b9; color: var(--header-blue); margin-left: 15px; font-weight: bold; padding: 8px 15px;">
+            <a href="contact.php">Contact Us</a>
+            <a href="login.php" style="background-color: #1a5c88; margin-left: 15px; font-weight: bold;">
                 ADMIN LOGIN
             </a>
         </nav>
@@ -116,7 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>+256754343434 / +256751111111</p>
         <p>swmsuganda@gmail.com</p>
         <div class="footer-divider"></div>
-        <p>&copy;2025 Smart Waste Management System | All rights Reserved</p>
+        <p>&copy;2026 Smart Waste Management System | All rights Reserved</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>

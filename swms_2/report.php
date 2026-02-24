@@ -1,8 +1,9 @@
 <?php
+
 include 'connect.php';
 $table = "incident_reports"; 
 
-// $conn = @new mysqli($host, $user, $password, $database);
+$conn = @new mysqli($host, $user, $password, $database);
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,19 +41,23 @@ if (isset($conn) && !$conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Reporting Portal - SWMS</title>
+    <title></title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <header>
+ <header>
         <h1><img src="images/hero_background.jpg" alt="SWMS Logo" class="logo-icon"> Smart Waste Management System</h1>
-        <nav>
-            <a href="index.php">System Overview</a>
+
+         <div class="menu-toggle" id="mobile-menu">
+        <i class="fas fa-bars"></i>
+    </div>
+        <nav id="nav-list">
+            <a href="index.php" >System Overview</a>
             <a href="report.php">Report Here</a>
             <a href="contact.php">Contact Us</a>
-            <a href="login.php" style="background-color: #3498db; margin-left: 15px; font-weight: bold;">
+            <a href="login.php" style="background-color: #1a5c88; margin-left: 15px; font-weight: bold;">
                 ADMIN LOGIN
             </a>
         </nav>
@@ -68,10 +73,10 @@ if (isset($conn) && !$conn->connect_error) {
             
             <?php echo $message; ?>
 
-            <form method="POST" action="report.php" style="background-color: #f8f9fa; padding: 30px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+            <form method="POST" action="report.php">
                 
-                <label for="report_type" style="font-weight: bold; color: #2c3e50;">Type of Incident:</label>
-                <select id="report_type" name="report_type" required style="background-color: #ffffff; border: 2px solid #3498db; color: #2c3e50; padding: 10px; border-radius: 5px; width: 100%; margin-bottom: 15px;">
+                <label for="report_type">Type of Incident:</label>
+                <select id="report_type" name="report_type" required>
                     <option value="">-- Select Incident Type --</option>
                     <option value="Illegal Dumping">Illegal Dumping</option>
                     <option value="Damaged Bin">Damaged Bin</option>
@@ -81,14 +86,10 @@ if (isset($conn) && !$conn->connect_error) {
                 </select>
 
                 <label for="location" style="font-weight: bold; color: #2c3e50;">Specific Location :</label>
-                <input type="text" id="location" name="location" style="border: 2px solid #3498db; padding: 10px; border-radius: 5px; width: 100%; margin-bottom: 15px;" >
-
-                <label for="details" style="font-weight: bold; color: #2c3e50;">Detailed Description of the Issue:</label>
-                <textarea id="details" name="details" rows="7" style="border: 2px solid #3498db; padding: 10px; border-radius: 5px; width: 100%; margin-bottom: 15px; font-family: Arial;"></textarea>
-
-                
-
-                <button type="submit" style="background-color: #27ae60; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s;">Submit Incident Report</button>
+                <input type="text" id="location" name="location" >
+                <label for="details">Detailed Description of the Issue:</label>
+                <textarea id="details" name="details" rows="7" ></textarea>
+                <button type="submit">Submit Incident Report</button>
             </form>
         </div>
     </div>
@@ -99,8 +100,8 @@ if (isset($conn) && !$conn->connect_error) {
         <p>+256754343434 / +256751111111</p>
         <p>swmsuganda@gmail.com</p>
         <div class="footer-divider"></div>
-        <p>&copy;2025 Smart Waste Management System | All rights Reserved</p>
+        <p>&copy;2026 Smart Waste Management System | All rights Reserved</p>
     </footer>
-
+<script src="script.js"></script>
 </body>
 </html>

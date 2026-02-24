@@ -1,3 +1,6 @@
+/* .menu-toggle {
+    display: none; 
+} */
 :root {
     --primary-green: #2ecc71; 
     --secondary-blue: #153f5b;
@@ -5,6 +8,15 @@
     --light-bg: #ecf0f1;
 }
 
+
+
+
+#nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background: transparent; 
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -67,12 +79,14 @@ header nav a:hover {
 
 .access-portal, .incident-entry-panel {
     max-width: 500px;
-    margin: 50px auto;
+    margin: 40px auto;
     padding: 30px;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: 95%;
 }
+
 
 .access-portal h2, .incident-entry-panel h2 {
     text-align: center;
@@ -310,4 +324,177 @@ footer {
     margin-right: 15px;
     width: 25px; 
     text-align: center;
+}
+
+
+.menu-toggle {
+    display: none; 
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+header {
+    position: relative; 
+}
+
+.container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.report-form-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 40px;
+    border-radius: 10px;
+    border-left: 5px solid #3498db;
+    border-left: 5px solid #3498db;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-width:450px; 
+    width: 100%;
+    margin:0 auto;
+}
+
+.report-form-container h2 {
+    color: #e74c3c;
+    margin-top: 0;
+}
+
+
+.form-instructions {
+    color: #555;
+    font-size: 16px;
+}
+ .report-form-container input[type="text"],
+        .report-form-container input[type="password"] {
+            background-color: #ffffff !important;
+            border: 2px solid #3498db !important;
+            color: #2c3e50 !important;
+            padding: 10px !important;
+            border-radius: 5px !important;
+            width: 100% ;
+            margin-bottom: 15px !important;
+            box-sizing: border-box !important;
+        }
+
+.incident-form {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    border-left: 5px solid #e74c3c;
+}
+
+.incident-form label {
+    font-weight: bold;
+    color: #2c3e50;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.incident-form select, 
+.incident-form input, 
+.incident-form textarea {
+    border: 2px solid #3498db;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+    box-sizing: border-box; 
+}
+
+.submit-btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background-color: #219150;
+}
+
+@media (max-width: 850px) {
+    .report-form-container {
+        width: 95% !important; 
+        padding: 20px !important; 
+        margin-top: 20px !important;
+    }
+
+    .report-form-container input, 
+    .report-form-container button {
+        font-size: 14px !important;
+        padding: 10px !important;
+    }
+
+    .menu-toggle {
+        display: block !important;
+    }
+
+    #nav-list.active {
+        display: flex !important;
+    }
+ .division-spotlight h2 {
+        font-size: 9vw !important; 
+        line-height: 1.1 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .division-spotlight p {
+        font-size: 4.5vw !important; 
+        margin-bottom: 15px !important;
+    }
+
+    .division-spotlight {
+        padding: 10% 5% !important; 
+    }
+    
+    header {
+        padding: 10px 20px;
+    }
+
+    header h1 {
+        font-size: 1.1rem; 
+        max-width: 80%;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    #nav-list {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        background-color: var(--secondary-blue);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        padding: 10px 0;
+    }
+
+   
+    #nav-list.active {
+        display: flex;
+    }
+
+    header nav a {
+        margin: 0;
+        padding: 15px 20px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+    }
+
+    header nav a:last-child {
+        border-bottom: none;
+    }
 }
