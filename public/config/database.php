@@ -19,7 +19,7 @@ function swms_load_env(string $path): void
     }
 }
 
-swms_load_env(__DIR__ . '/../.env');
+swms_load_env(__DIR__ . '/../../.env');
 
 $host     = getenv('DB_HOST') ?: 'localhost';
 $user     = getenv('DB_USER') ?: 'root';

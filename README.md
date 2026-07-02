@@ -9,14 +9,21 @@ monitoring, citizen incident reporting, and an admin dashboard.
 public/            Web root - PHP pages, CSS, JS, images
   includes/         Shared header/footer partials
   assets/           css/, js/, images/
-config/
-  database.php      DB connection, reads credentials from environment variables
+  config/
+    database.php    DB connection, reads credentials from environment variables
 database/
   schema.sql        Table definitions (run once on a fresh database)
 docker/             Apache vhost, php.ini overrides, container entrypoint
 Dockerfile
 .env.example        Template for local environment variables
 ```
+
+`config/database.php` lives inside `public/` on purpose: PHP always executes `.php`
+files server-side, so it never leaks its source even when the web root serves
+it directly. That's what lets the exact same file tree work both as a Docker
+web root (Render) and as classic FTP/file-manager shared hosting (InfinityFree
+and similar), which typically only allow uploads inside the site's web root
+folder.
 
 ## Why one service, not two
 
@@ -69,6 +76,29 @@ database name reachable from Render.
    needed.
 6. Once live, visit `/register.php` to create the first admin account (no
    credentials are seeded by `schema.sql`).
+
+## Deploying to classic shared hosting (e.g. InfinityFree)
+
+No Docker, no environment variables, no SSH - just a file manager and a MySQL
+database that already exists on the same host.
+
+1. Upload the **contents** of `public/` (not the folder itself) into `htdocs/`
+   via Upload & Unzip. This includes `config/database.php` as-is - it's safe
+   because it reads credentials via `getenv()`/`.env`, not hardcoded values.
+2. Since there's no environment-variable mechanism, `config/database.php`'s
+   `getenv()` calls will all return false. Either:
+   - Edit `htdocs/config/database.php` directly in the file manager and
+     replace the `getenv('DB_HOST') ?: 'localhost'` style lines with the real
+     hardcoded values for that host, or
+   - Create an `htdocs/.env` file with the same keys as `.env.example`. Note
+     this file *is* web-servable at `yoursite.com/.env` unless your host's
+     `.htaccess` blocks dotfiles - hardcoding directly in the `.php` file is
+     safer if you're not sure.
+   Whichever you choose, do it only on the live server - never commit real
+   credentials to this repo.
+3. The database and its tables already exist - no need to re-run
+   `database/schema.sql`.
+4. Visit your domain and register the first admin account at `/register.php`.
 
 ## Security notes carried over from the original build
 

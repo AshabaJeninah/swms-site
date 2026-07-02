@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/config/database.php';
 
 $apiKey = getenv('IOT_API_KEY');
 if ($apiKey && ($_GET['key'] ?? '') !== $apiKey) {
