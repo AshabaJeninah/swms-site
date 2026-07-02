@@ -2,7 +2,7 @@
 
 function swms_load_env(string $path): void
 {
-    if (!is_file($path)) {
+    if (!@is_file($path)) {
         return;
     }
 
