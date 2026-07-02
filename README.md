@@ -7,10 +7,14 @@ monitoring, citizen incident reporting, and an admin dashboard.
 
 ```
 public/            Web root - PHP pages, CSS, JS, images
-  includes/         Shared header/footer partials
+  includes/         Shared header/footer partials (header, footer, bin_map)
   assets/           css/, js/, images/
   config/
     database.php    DB connection, reads credentials from environment variables
+    app.php         App-wide config (Google Maps API key), includes database.php
+  map.php           Public bin map
+  manage_bins.php   Admin: add/edit/delete bins
+  update_report_status.php  Admin: update an incident's status
 database/
   schema.sql        Table definitions (run once on a fresh database)
 docker/             Apache vhost, php.ini overrides, container entrypoint
@@ -71,6 +75,11 @@ database name reachable from Render.
    - `IOT_API_KEY` - a secret string your bin sensors must send as
      `?key=...` when calling `update_bin.php`. Required in production;
      leaving it unset disables the check.
+   - `GOOGLE_MAPS_API_KEY` - from [Google Cloud Console](https://console.cloud.google.com/google/maps-apis).
+     Restrict it to your domain(s) via HTTP referrer restrictions once you
+     know the final URL - this key is not a secret (it ships in the page
+     source to the browser), the referrer restriction is what stops other
+     sites from burning your quota.
 5. Deploy. Render sets `PORT` automatically; `docker/entrypoint.sh` points
    Apache at it on container start, so no manual port configuration is
    needed.
@@ -82,20 +91,24 @@ database name reachable from Render.
 No Docker, no environment variables, no SSH - just a file manager and a MySQL
 database that already exists on the same host.
 
+Important: when zipping `public/` for upload, make sure your zip tool writes
+forward-slash (`/`) path separators. Windows' built-in `Compress-Archive`
+writes backslash-separated paths, which some web-based unzip tools silently
+drop everything nested inside - you'll see only the top-level `.php` files
+extract, with `assets/`, `config/`, and `includes/` missing.
+
 1. Upload the **contents** of `public/` (not the folder itself) into `htdocs/`
-   via Upload & Unzip. This includes `config/database.php` as-is - it's safe
-   because it reads credentials via `getenv()`/`.env`, not hardcoded values.
-2. Since there's no environment-variable mechanism, `config/database.php`'s
-   `getenv()` calls will all return false. Either:
-   - Edit `htdocs/config/database.php` directly in the file manager and
-     replace the `getenv('DB_HOST') ?: 'localhost'` style lines with the real
-     hardcoded values for that host, or
-   - Create an `htdocs/.env` file with the same keys as `.env.example`. Note
-     this file *is* web-servable at `yoursite.com/.env` unless your host's
-     `.htaccess` blocks dotfiles - hardcoding directly in the `.php` file is
-     safer if you're not sure.
-   Whichever you choose, do it only on the live server - never commit real
-   credentials to this repo.
+   via Upload & Unzip. This includes `config/database.php` and
+   `config/app.php` as-is - safe to upload because they read credentials via
+   `getenv()`, not hardcoded values.
+2. Since there's no environment-variable mechanism, every `getenv()` call
+   will return false. Edit `htdocs/config/database.php` directly in the file
+   manager and replace the `getenv('DB_HOST') ?: 'localhost'` style lines
+   with the real hardcoded values for that host. Do the same for
+   `htdocs/config/app.php`'s `GOOGLE_MAPS_API_KEY` line if you want the map
+   to work (or leave it blank - `bin_map.php` degrades to a "map unavailable"
+   message rather than erroring). Do this only on the live server - never
+   commit real credentials to this repo.
 3. The database and its tables already exist - no need to re-run
    `database/schema.sql`.
 4. Visit your domain and register the first admin account at `/register.php`.
