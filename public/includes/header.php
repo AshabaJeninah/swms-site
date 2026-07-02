@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <h1><img src="assets/images/hero_background.jpg" alt="SWMS Logo" class="logo-icon"> Smart Waste Management System</h1>
+        <h1><img src="assets/images/hero_background.png" alt="SWMS Logo" class="logo-icon"> Smart Waste Management System</h1>
 
         <div class="menu-toggle" id="mobile-menu">
             <i class="fas fa-bars"></i>

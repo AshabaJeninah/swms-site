@@ -3,7 +3,7 @@ $pageTitle = 'Welcome to SWMS - Smart Waste Management';
 $extraHead = <<<HTML
     <style>
         .division-spotlight {
-            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('assets/images/hero_background.jpg') no-repeat center center;
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('assets/images/hero_background.png') no-repeat center center;
             background-size: cover;
             color: white;
             padding: 80px 40px;
