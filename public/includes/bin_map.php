@@ -25,15 +25,9 @@ $markerData = array_map(static function ($b) {
 <?php elseif (empty($markerData)): ?>
     <div class="error-message">No bins have a location set yet.</div>
 <?php else: ?>
-    <div id="bin-map" style="height: 480px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"></div>
+    <div id="bin-map" style="height: 480px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);"></div>
     <script>
         const swmsBins = <?= json_encode($markerData) ?>;
-
-        function swmsBinColor(status) {
-            if (status === 'Critical') return '#e74c3c';
-            if (status === 'Warning') return '#f1c40f';
-            return '#2ecc71';
-        }
 
         function initSwmsMap() {
             const center = swmsBins.length
@@ -53,12 +47,9 @@ $markerData = array_map(static function ($b) {
                     map,
                     title: bin.name,
                     icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        fillColor: swmsBinColor(bin.status),
-                        fillOpacity: 1,
-                        strokeColor: '#ffffff',
-                        strokeWeight: 2,
-                        scale: 10,
+                        url: 'assets/images/recycle-bin.png',
+                        scaledSize: new google.maps.Size(36, 36),
+                        anchor: new google.maps.Point(18, 36),
                     },
                 });
 
@@ -78,7 +69,7 @@ $markerData = array_map(static function ($b) {
 <?php endif; ?>
 
 <?php if (!empty($unlocatedBins)): ?>
-    <p style="margin-top: 15px; color: #7f8c8d; font-size: 0.9em;">
+    <p style="margin-top: var(--space-4); color: var(--color-text-muted); font-size: var(--text-sm);">
         <?= count($unlocatedBins) ?> bin(s) have no map location set yet:
         <?= htmlspecialchars(implode(', ', array_column($unlocatedBins, 'location_name'))) ?>
     </p>

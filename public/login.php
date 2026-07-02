@@ -31,47 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = 'Admin Login - SWMS';
-$extraHead = <<<HTML
-    <style>
-        .report-form-container h2 {
-            color: #2c3e50 !important;
-        }
-
-        .report-form-container input[type="text"]:focus,
-        .report-form-container input[type="password"]:focus {
-            outline: none !important;
-            border-color: #2980b9 !important;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5) !important;
-        }
-
-        .report-form-container button {
-            background-color: #27ae60 !important;
-        }
-    </style>
-HTML;
-
 include __DIR__ . '/includes/header.php';
 ?>
 
-<div class="report-form-container" style="max-width: 450px;">
-    <h2 style="font-size: 2.2em; margin-bottom: 25px;">Administrator Login</h2>
-    <?= $login_message ?>
+<div class="container">
+    <div class="report-form-container">
+        <h2 style="text-align: center; color: var(--color-primary);">Administrator Login</h2>
+        <?= $login_message ?>
 
-    <form action="login.php" method="POST">
+        <form action="login.php" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Admin username" required>
 
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="Admin username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
 
-        <button type="submit">Log In</button>
-    </form>
-
-    <p style="text-align: center; margin-top: 15px; font-size: 1em;">
-        Don't have an account?
-        <a href="register.php" style="color: var(--primary-green); font-weight: bold; text-decoration: none;">Register here</a>
-    </p>
+        <p style="text-align: center; margin-top: var(--space-4);">
+            Don't have an account?
+            <a href="register.php" style="color: var(--color-success); font-weight: 600; text-decoration: none;">Register here</a>
+        </p>
+    </div>
 </div>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

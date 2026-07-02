@@ -15,51 +15,53 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <div class="app-shell">
-    <h2 style="text-align: center; color: var(--secondary-blue);">MONITORING DASHBOARD</h2>
-    <p style="text-align: center;">
-        <a href="manage_bins.php" class="nav-trigger-btn">Manage Bins</a>
-    </p>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-5);">
+        <h2 class="page-heading" style="margin: 0; text-align: left;">Monitoring Dashboard</h2>
+        <a href="manage_bins.php" class="btn nav-trigger-btn"><i class="fas fa-map-marker-alt"></i>&nbsp; Manage Bins</a>
+    </div>
 
     <?php include __DIR__ . '/includes/bin_map.php'; ?>
 </div>
 
-<div class="logistics-optimization-summary" style="margin-top: 40px;">
-    <h3>Incidents & Reports</h3>
-    <table class="audit-log-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Location</th>
-                <th>Issue Type</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($incidents && $incidents->num_rows > 0): ?>
-                <?php while ($row = $incidents->fetch_assoc()): ?>
-                    <tr>
-                        <td>#<?= (int) $row['id'] ?></td>
-                        <td><?= htmlspecialchars($row['location']) ?></td>
-                        <td><?= htmlspecialchars($row['report_type']) ?></td>
-                        <td>
-                            <form method="POST" action="update_report_status.php" style="display: flex; gap: 6px; align-items: center;">
-                                <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
-                                <select name="status" onchange="this.form.submit()" style="width: auto; margin: 0; padding: 4px;">
-                                    <?php foreach (['Pending', 'Investigating', 'Resolved'] as $option): ?>
-                                        <option value="<?= $option ?>" <?= $row['status'] === $option ? 'selected' : '' ?>><?= $option ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
+<div class="app-shell" style="margin-top: var(--space-5);">
+    <div class="logistics-optimization-summary" style="margin-top: 0;">
+        <h3>Incidents &amp; Reports</h3>
+        <table class="audit-log-table">
+            <thead>
                 <tr>
-                    <td colspan="4" style="text-align: center;">No incidents reported yet.</td>
+                    <th>ID</th>
+                    <th>Location</th>
+                    <th>Issue Type</th>
+                    <th>Status</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php if ($incidents && $incidents->num_rows > 0): ?>
+                    <?php while ($row = $incidents->fetch_assoc()): ?>
+                        <tr>
+                            <td>#<?= (int) $row['id'] ?></td>
+                            <td><?= htmlspecialchars($row['location']) ?></td>
+                            <td><?= htmlspecialchars($row['report_type']) ?></td>
+                            <td>
+                                <form method="POST" action="update_report_status.php" style="margin: 0;">
+                                    <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
+                                    <select name="status" onchange="this.form.submit()" style="width: auto; margin: 0; padding: var(--space-2) var(--space-3);">
+                                        <?php foreach (['Pending', 'Investigating', 'Resolved'] as $option): ?>
+                                            <option value="<?= $option ?>" <?= $row['status'] === $option ? 'selected' : '' ?>><?= $option ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">No incidents reported yet.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

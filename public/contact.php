@@ -15,9 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('ssss', $name, $email, $subject, $msg);
 
         if ($stmt->execute()) {
-            $message = '<div style="padding: 15px; background-color: var(--primary-green); color: white; border-radius: 5px; margin-bottom: 20px; text-align: center;">
-                            <i class="fas fa-check-circle"></i> Thank you! Your message has been sent.
-                        </div>';
+            $message = '<div class="success-message"><i class="fas fa-check-circle"></i> Thank you! Your message has been sent.</div>';
         } else {
             $message = '<div class="error-message">Error submitting message. Please try again.</div>';
         }
@@ -29,19 +27,17 @@ $pageTitle = 'Contact Us - SWMS';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<div style="display: flex; justify-content: center; gap: 30px; margin: 50px auto; max-width: 1050px;">
-
-    <div class="report-form-container" style="flex: 2; margin: 0; padding: 30px;">
-        <h2 style="font-size: 2.5em; color: var(--text-color); margin-bottom: 25px;">Send Us a Message</h2>
+<div class="app-shell" style="display: flex; gap: var(--space-6); flex-wrap: wrap; align-items: flex-start;">
+    <div class="report-form-container" style="flex: 2; min-width: 280px; margin: 0;">
+        <h2 style="color: var(--color-primary); margin-bottom: var(--space-5);">Send Us a Message</h2>
         <?= $message ?>
 
         <form action="contact.php" method="POST">
-
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="Enter your name">
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="email required">
+            <input type="email" id="email" name="email" placeholder="you@example.com">
 
             <label for="message">Message:</label>
             <textarea id="message" name="message" rows="6" placeholder="Your message" required></textarea>
@@ -50,35 +46,19 @@ include __DIR__ . '/includes/header.php';
         </form>
     </div>
 
-    <div style="flex: 1; margin: 0; align-self: flex-start;">
-
-        <div class="contact-info-block" style="margin-bottom: 20px;">
-            <h3>Connect with Us</h3>
-
-            <p>
-                <i class="fas fa-phone-alt"></i>
-                (+256)-7810020003/ (+256)-751002003
-            </p>
-            <p>
-                <i class="fas fa-envelope"></i>
-                swmsuganda@gmail.com
-            </p>
-            <p>
-                <i class="fas fa-map-marker-alt"></i>
-                KCCA Headquarters, Kampala, Uganda
-            </p>
+    <div style="flex: 1; min-width: 240px;">
+        <div class="contact-info-block" style="margin-bottom: var(--space-5);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">Connect with Us</h3>
+            <p><i class="fas fa-phone-alt"></i>&nbsp; (+256)-7810020003 / (+256)-751002003</p>
+            <p><i class="fas fa-envelope"></i>&nbsp; swmsuganda@gmail.com</p>
+            <p><i class="fas fa-map-marker-alt"></i>&nbsp; KCCA Headquarters, Kampala, Uganda</p>
         </div>
 
         <div class="contact-info-block">
-            <h3>Urgent Request?</h3>
-            <p style="font-size: 1em; margin-bottom: 10px; color: var(--text-color);">
-                In case of any emergency reporting, please use our hotline for immediate dispatch assistance.
-            </p>
-            <p style="font-size: 1.2em; font-weight: bold; color: var(--primary-green);">
-                <i class="fas fa-exclamation-triangle"></i> Call: 0100400100
-            </p>
+            <h3 style="color: var(--color-primary); margin-top: 0;">Urgent Request?</h3>
+            <p style="color: var(--color-text-muted);">In case of any emergency reporting, please use our hotline for immediate dispatch assistance.</p>
+            <p style="font-weight: 700; color: var(--color-success);"><i class="fas fa-exclamation-triangle"></i> Call: 0100400100</p>
         </div>
-
     </div>
 </div>
 

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param('sdds', $location_name, $latitude, $longitude, $status);
             $stmt->execute();
             $stmt->close();
-            $message = '<div style="padding: 15px; background-color: var(--primary-green); color: white; border-radius: 5px; margin-bottom: 20px; text-align: center;">Bin added.</div>';
+            $message = '<div class="success-message">Bin added.</div>';
         }
     } elseif ($action === 'edit') {
         $bin_id = (int) ($_POST['bin_id'] ?? 0);
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param('sddi', $location_name, $latitude, $longitude, $bin_id);
             $stmt->execute();
             $stmt->close();
-            $message = '<div style="padding: 15px; background-color: var(--primary-green); color: white; border-radius: 5px; margin-bottom: 20px; text-align: center;">Bin updated.</div>';
+            $message = '<div class="success-message">Bin updated.</div>';
         }
     } elseif ($action === 'delete') {
         $bin_id = (int) ($_POST['bin_id'] ?? 0);
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('i', $bin_id);
         $stmt->execute();
         $stmt->close();
-        $message = '<div style="padding: 15px; background-color: var(--primary-green); color: white; border-radius: 5px; margin-bottom: 20px; text-align: center;">Bin deleted.</div>';
+        $message = '<div class="success-message">Bin deleted.</div>';
     }
 }
 
@@ -59,70 +59,77 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <div class="app-shell">
-    <h2 style="text-align: center; color: var(--secondary-blue);">MANAGE BINS</h2>
+    <h2 class="page-heading">Manage Bins</h2>
 
     <?= $message ?>
 
-    <div class="incident-form" style="max-width: 600px; margin: 0 auto 40px;">
+    <div class="incident-form" style="max-width: 600px; margin: 0 auto var(--space-7);">
         <h3 style="margin-top: 0;">Add a Bin</h3>
         <form method="POST" action="manage_bins.php">
             <input type="hidden" name="action" value="add">
             <label for="location_name">Location Name:</label>
             <input type="text" id="location_name" name="location_name" required>
 
-            <label for="latitude">Latitude (optional):</label>
-            <input type="text" id="latitude" name="latitude" placeholder="e.g. 0.3672">
+            <div class="form-row" style="display: flex; gap: var(--space-3);">
+                <div style="flex: 1;">
+                    <label for="latitude">Latitude (optional):</label>
+                    <input type="text" id="latitude" name="latitude" placeholder="e.g. 0.3672">
+                </div>
+                <div style="flex: 1;">
+                    <label for="longitude">Longitude (optional):</label>
+                    <input type="text" id="longitude" name="longitude" placeholder="e.g. 32.5825">
+                </div>
+            </div>
 
-            <label for="longitude">Longitude (optional):</label>
-            <input type="text" id="longitude" name="longitude" placeholder="e.g. 32.5825">
-
-            <button type="submit" class="submit-btn">Add Bin</button>
+            <button type="submit">Add Bin</button>
         </form>
     </div>
 
-    <table class="audit-log-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Location &amp; Coordinates</th>
-                <th>Fill</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (empty($bins)): ?>
-                <tr>
-                    <td colspan="5" style="text-align: center;">No bins registered yet.</td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($bins as $bin): ?>
-                    <tr>
-                        <td>#<?= (int) $bin['bin_id'] ?></td>
-                        <td>
-                            <form method="POST" action="manage_bins.php" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                                <input type="hidden" name="action" value="edit">
-                                <input type="hidden" name="bin_id" value="<?= (int) $bin['bin_id'] ?>">
-                                <input type="text" name="location_name" value="<?= htmlspecialchars($bin['location_name']) ?>" style="width: 160px; margin: 0;" required>
-                                <input type="text" name="latitude" value="<?= htmlspecialchars((string) $bin['latitude']) ?>" placeholder="lat" style="width: 90px; margin: 0;">
-                                <input type="text" name="longitude" value="<?= htmlspecialchars((string) $bin['longitude']) ?>" placeholder="lng" style="width: 90px; margin: 0;">
-                                <button type="submit" class="submit-btn" style="width: auto; padding: 6px 14px;">Save</button>
-                            </form>
-                        </td>
-                        <td><?= (int) $bin['current_fill_level'] ?>%</td>
-                        <td><span class="rating-metric <?= $bin['status'] === 'Critical' ? 'very-poor' : ($bin['status'] === 'Warning' ? 'average' : 'excellent') ?>"><?= htmlspecialchars($bin['status']) ?></span></td>
-                        <td>
-                            <form method="POST" action="manage_bins.php" onsubmit="return confirm('Delete this bin?');">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="bin_id" value="<?= (int) $bin['bin_id'] ?>">
-                                <button type="submit" class="submit-btn" style="width: auto; padding: 6px 14px; background-color: #e74c3c;">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
-    </table>
+    <h3 style="color: var(--color-primary);">Registered Bins</h3>
+
+    <?php if (empty($bins)): ?>
+        <p style="text-align: center; color: var(--color-text-muted);">No bins registered yet.</p>
+    <?php else: ?>
+        <div class="bin-card-grid">
+            <?php foreach ($bins as $bin): ?>
+                <div class="bin-card" style="border-left-color: <?= $bin['status'] === 'Critical' ? 'var(--color-danger)' : ($bin['status'] === 'Warning' ? 'var(--color-warning-light)' : 'var(--color-success-light)') ?>;">
+                    <div class="bin-card-header">
+                        <h3>#<?= (int) $bin['bin_id'] ?> &middot; <?= (int) $bin['current_fill_level'] ?>%</h3>
+                        <span class="rating-metric <?= $bin['status'] === 'Critical' ? 'very-poor' : ($bin['status'] === 'Warning' ? 'average' : 'excellent') ?>"><?= htmlspecialchars($bin['status']) ?></span>
+                    </div>
+
+                    <form method="POST" action="manage_bins.php">
+                        <input type="hidden" name="action" value="edit">
+                        <input type="hidden" name="bin_id" value="<?= (int) $bin['bin_id'] ?>">
+
+                        <label for="location_name_<?= (int) $bin['bin_id'] ?>">Location Name</label>
+                        <input type="text" id="location_name_<?= (int) $bin['bin_id'] ?>" name="location_name" value="<?= htmlspecialchars($bin['location_name']) ?>" required>
+
+                        <div class="form-row">
+                            <div style="flex: 1;">
+                                <label for="lat_<?= (int) $bin['bin_id'] ?>">Latitude</label>
+                                <input type="text" id="lat_<?= (int) $bin['bin_id'] ?>" name="latitude" value="<?= htmlspecialchars((string) $bin['latitude']) ?>" placeholder="lat">
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="lng_<?= (int) $bin['bin_id'] ?>">Longitude</label>
+                                <input type="text" id="lng_<?= (int) $bin['bin_id'] ?>" name="longitude" value="<?= htmlspecialchars((string) $bin['longitude']) ?>" placeholder="lng">
+                            </div>
+                        </div>
+
+                        <div class="bin-card-actions">
+                            <button type="submit" class="btn-sm submit-btn" style="flex: 1;">Save</button>
+                        </div>
+                    </form>
+
+                    <form method="POST" action="manage_bins.php" onsubmit="return confirm('Delete this bin?');" style="margin-top: var(--space-2);">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="bin_id" value="<?= (int) $bin['bin_id'] ?>">
+                        <button type="submit" class="btn-sm btn-danger" style="width: 100%;">Delete</button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>
